@@ -19,6 +19,12 @@ function sendFail(req, res, message, debugMessage) {
   res.send(resp)
 }
 
+function sendReLogin(req, res, message) {
+  const debugMessage = 'Invalid token'
+  var resp = new Response(5001, null, '無效的憑證，請重新登入')
+  res.send(resp)
+}
+
 function handleError(req, res) {
   return function(err) {
     console.log('資料庫發生錯誤：' + err);
@@ -29,5 +35,6 @@ function handleError(req, res) {
 module.exports = {
   sendSuccess,
   sendFail,
+  sendReLogin,
   handleError,
 };

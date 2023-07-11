@@ -52,7 +52,7 @@ function verifyToken(req, res, next) {
   // verify
   tokener.verify(token, (err, userInfo) => {
     if (err) {
-      response.sendFail(req, res, '無效的憑證，請重新登入', 'Invalid token')
+      response.sendReLogin(req, res)
       return
     }
   

@@ -4,9 +4,9 @@ function transformRows(thursday, staffList, profiles, points, items, studies) {
   var rows = []
   staffList.forEach(staff => {
     const profile = profiles.find(p => p.staff_id === staff.id)
-    const point = points.find(p => p.situation_id === (profile) ? profile.id : -1)
-    const itemList = items.find(p => p.situation_id === (profile) ? profile.id : -1)
-    const studyList = studies.find(p => p.situation_id === (profile) ? profile.id : -1)
+    const point = points.find(p => p.situation_id === ((profile) ? profile.id : -1))
+    const itemList = items.find(p => p.situation_id === ((profile) ? profile.id : -1))
+    const studyList = studies.find(p => p.situation_id === ((profile) ? profile.id : -1))
   
     var row = {
       date:                  thursday,
@@ -34,12 +34,17 @@ function transformRows(thursday, staffList, profiles, points, items, studies) {
       attendStaffMeeting:    (point) ? point.points_non_submission : calculateNonSubmissionPoints(staff, profile),
       GI:                    (point) ? point.points_gi : 0,
       GBS:                   (point) ? point.points_gbs : 0,
-      totalPoints:           (point) ? point.points_total : 0,
       note:                  (point) ? point.remark : ''
     }
 
-    if (!point) {
+    if (!profile) {
+      row.totalPoints = 0
+    } else {
+      if (point) {
+        row.totalPoints = point.points_total
+      } else {
         row.totalPoints = calculateTotalPoints(row)
+      }
     }
 
     rows.push(row)
