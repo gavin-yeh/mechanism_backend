@@ -214,12 +214,14 @@ function transformSituationPoints(profiles, rows) {
   }).filter(point => point !== null)
 }
 
-function formatTime(time) {
-  var year = time.getFullYear();
-  var month = time.getMonth().toString().padStart(2, "0");
-  var day = time.getDate().toString().padStart(2, "0");
-  var formattedDate = year + "-" + month + "-" + day;
-  return formattedDate
+function formatTime(h, m) {
+  // 將數字轉換為兩位數的字符串
+  const hours = String(h).padStart(2, '0')
+  const minutes = String(m).padStart(2, '0')
+
+  // 組合成 "hh:mm" 格式的字符串
+  const formattedTime = hours + ':' + minutes
+  return formattedTime
 }
 
 function transformOutputPoints(rows, items) {
@@ -252,7 +254,13 @@ function transformOutputPoints(rows, items) {
       if (!item.tags) {
         return
       }
-      const tag = item.tags.find(obj => obj == "audit")
+
+      const tags = JSON.parse(item.tags)
+      if ( tags.length === 0) {
+        return
+      }
+
+      const tag = tags.find(obj => obj == "audit")
       if (!tag) {
         return
       }
@@ -260,7 +268,7 @@ function transformOutputPoints(rows, items) {
       const time = formatTime(item.statistics1, item.statistics2)
 
       var data = [
-        staff.name,
+        row.name,
         time,
       ]
       auditList.push(data)
