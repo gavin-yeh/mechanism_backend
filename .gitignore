@@ -17,3 +17,4 @@ tests/**/coverage/
 
 DEV.md
 .env
+.env_prod

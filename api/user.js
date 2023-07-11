@@ -24,7 +24,7 @@ async function infoHandler(req, res) {
   }
 
   const info = {
-    roles: ['admin'],
+    roles: staff.roles,
     introduction: 'I am a super administrator',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: staff.name,

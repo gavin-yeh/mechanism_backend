@@ -18,7 +18,8 @@ function load(whereClause) {
       staffs.points_technical_training_plus,
       staffs.points_management_training_plus,
       staffs.points_audit_case_plus,
-      staffs.points_seniority_plus
+      staffs.points_seniority_plus,
+      staffs.roles
   FROM staffs
   LEFT JOIN users ON staffs.user_id = users.id
   WHERE ${whereClause}
