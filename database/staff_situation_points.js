@@ -99,8 +99,25 @@ function saveOrUpdate(datas) {
     });
 }
 
+function deleteById(situationId) {
+    return new Promise((resolve, reject) => {
+
+        const sqlQuery = `
+        DELETE FROM staff_situation_points
+        WHERE situation_id = ${situationId}`
+
+        connection.query(sqlQuery, (error, results, fields) => {
+            if (error) reject(error);
+
+            // return query result
+            resolve(results);
+        });
+    });
+}
+
 
 module.exports = {
     loadByIds,
     saveOrUpdate,
+    deleteById,
 };

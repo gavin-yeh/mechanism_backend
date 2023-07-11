@@ -5,6 +5,7 @@ const situationProfiles = require('./../database/staff_situation_profiles.js')
 const situationCurves = require('./../database/staff_situation_curves.js')
 const situationItems = require('./../database/staff_situation_items.js')
 const situationStudies = require('./../database/staff_situation_studies.js')
+const situationPoints = require('./../database/staff_situation_points.js')
 const staffs = require('./../database/staffs.js')
 const timer = require('../src/timer/timer.js')
 const lineNotify = require('../src/third/line_notify.js')
@@ -134,6 +135,10 @@ async function submitHandler(req, res) {
   const put2 = situationItems.saveOrUpdate(sis)
   const put3 = situationStudies.saveOrUpdate(sss)
   await Promise.all([put2, put3])
+
+
+  // delete point
+  situationPoints.deleteById(situationId)
 
   const result = {}
   response.sendSuccess(req, res, result)
