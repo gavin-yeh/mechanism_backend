@@ -5,8 +5,8 @@ function transformRows(thursday, staffList, profiles, points, items, studies) {
   staffList.forEach(staff => {
     const profile = profiles.find(p => p.staff_id === staff.id)
     const point = points.find(p => p.situation_id === ((profile) ? profile.id : -1))
-    const itemList = items.find(p => p.situation_id === ((profile) ? profile.id : -1))
-    const studyList = studies.find(p => p.situation_id === ((profile) ? profile.id : -1))
+    const itemList = items.filter(p => p.situation_id === ((profile) ? profile.id : -1))
+    const studyList = studies.filter(p => p.situation_id === ((profile) ? profile.id : -1))
   
     var row = {
       date:                  thursday,
@@ -99,7 +99,7 @@ function calculateStudiesPoints(staff, studies) {
   var points = 0
   var studyHours = 0
   for (i = 0; i < studies.length; i++) {
-    studyHours += studies[i].hours
+    studyHours += Number(studies[i].hours)
   }
   if (studyHours == 0) {
     points = employmentPoints(staff, -1)
