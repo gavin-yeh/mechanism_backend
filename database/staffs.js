@@ -23,7 +23,7 @@ function load(whereClause) {
   FROM staffs
   LEFT JOIN users ON staffs.user_id = users.id
   WHERE ${whereClause}
-  ORDER BY FIELD(department, 'div7', 'div1', 'div2', 'div3', 'div4', 'div5', 'div6A', 'div6B', 'div6C')`
+  ORDER BY FIELD(department, 'div7', 'div1', 'div2', 'div3', 'div4', 'div5', 'div6A', 'div6B', 'div6C'), staff_order`
 
   connection.query(sqlQuery, (error, results, fields) => {
           if (error) reject(error)
