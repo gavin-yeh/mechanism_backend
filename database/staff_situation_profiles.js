@@ -8,17 +8,6 @@ function load(whereClause) {
       staff_id,
       position,
       settlement_date,
-      working_hours_w4,
-      working_hours_w5,
-      working_hours_w6,
-      working_hours_w7,
-      working_hours_w1,
-      working_hours_w2,
-      working_hours_w3,
-      outflow_letter,
-      outflow_line,
-      outflow_email,
-      outflow_promote,
       general_condition,
       personal_condition,
       finish_condition_formula,
@@ -65,21 +54,10 @@ function saveOrUpdate(datas) {
     }
     const sqlQuery = `
     INSERT INTO staff_situation_profiles
-    (staff_id, position, settlement_date, working_hours_w4, working_hours_w5, working_hours_w6, working_hours_w7, working_hours_w1, working_hours_w2, working_hours_w3, outflow_letter, outflow_line, outflow_email, outflow_promote, general_condition, personal_condition, finish_condition_formula, attend_meeting, annotation)
+    (staff_id, position, settlement_date, general_condition, personal_condition, finish_condition_formula, attend_meeting, annotation)
     VALUES
     ?
     ON DUPLICATE KEY UPDATE
-    working_hours_w4 = VALUES(working_hours_w4),
-    working_hours_w5 = VALUES(working_hours_w5),
-    working_hours_w6 = VALUES(working_hours_w6),
-    working_hours_w7 = VALUES(working_hours_w7),
-    working_hours_w1 = VALUES(working_hours_w1),
-    working_hours_w2 = VALUES(working_hours_w2),
-    working_hours_w3 = VALUES(working_hours_w3),
-    outflow_letter = VALUES(outflow_letter),
-    outflow_line = VALUES(outflow_line),
-    outflow_email = VALUES(outflow_email),
-    outflow_promote = VALUES(outflow_promote),
     general_condition = VALUES(general_condition),
     personal_condition = VALUES(personal_condition),
     finish_condition_formula = VALUES(finish_condition_formula),
@@ -91,17 +69,6 @@ function saveOrUpdate(datas) {
         data.staff_id,
         data.position,
         data.settlement_date,
-        data.working_hours_w4,
-        data.working_hours_w5,
-        data.working_hours_w6,
-        data.working_hours_w7,
-        data.working_hours_w1,
-        data.working_hours_w2,
-        data.working_hours_w3,
-        data.outflow_letter,
-        data.outflow_line,
-        data.outflow_email,
-        data.outflow_promote,
         data.general_condition,
         data.personal_condition,
         data.finish_condition_formula,
@@ -122,21 +89,10 @@ function saveOrUpdateOne(data) {
   return new Promise((resolve, reject) => {
     const sqlQuery = `
     INSERT INTO staff_situation_profiles
-    (staff_id, position, settlement_date, working_hours_w4, working_hours_w5, working_hours_w6, working_hours_w7, working_hours_w1, working_hours_w2, working_hours_w3, outflow_letter, outflow_line, outflow_email, outflow_promote, general_condition, personal_condition, finish_condition_formula, attend_meeting, annotation)
+    (staff_id, position, settlement_date, general_condition, personal_condition, finish_condition_formula, attend_meeting, annotation)
     VALUES
-    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE
-    working_hours_w4 = VALUES(working_hours_w4),
-    working_hours_w5 = VALUES(working_hours_w5),
-    working_hours_w6 = VALUES(working_hours_w6),
-    working_hours_w7 = VALUES(working_hours_w7),
-    working_hours_w1 = VALUES(working_hours_w1),
-    working_hours_w2 = VALUES(working_hours_w2),
-    working_hours_w3 = VALUES(working_hours_w3),
-    outflow_letter = VALUES(outflow_letter),
-    outflow_line = VALUES(outflow_line),
-    outflow_email = VALUES(outflow_email),
-    outflow_promote = VALUES(outflow_promote),
     general_condition = VALUES(general_condition),
     personal_condition = VALUES(personal_condition),
     finish_condition_formula = VALUES(finish_condition_formula),

@@ -1,4 +1,4 @@
-const { studyItems } = require('./define.js')
+const { studyItems, workingItems } = require('./define.js')
 
 function newItem(situationId, type, curve, curveSettings) {
   const curveSetting = curveSettings.find(item => item.curve_name === curve.name)
@@ -30,7 +30,7 @@ function transformSituationItems(situationId, mainCurve, subCurve, curveSettings
 }
 
 function transformSituationStudies(situationId, studyHours) {
-  var situationStudies = []
+  var studies = []
   for (const i of studyItems) {
     var sh = studyHours[i.key]
     if (sh == null) {
@@ -43,10 +43,38 @@ function transformSituationStudies(situationId, studyHours) {
       study_name:     sh.name,
       study_progress: sh.progress
     }
-    situationStudies.push(s)
+    studies.push(s)
   }
 
-  return situationStudies
+  return studies
+}
+
+function transformSituationOutflows(situationId, submitData) {
+  var outflows = []
+  if (submitData.flow.letter) {
+    outflows.push({ situation_id: situationId, outflow_type: "letter", amount: submitData.flow.letter, remark: ''})
+  }
+  if (submitData.flow.letter) {
+    outflows.push({ situation_id: situationId, outflow_type: "line", amount: submitData.flow.line, remark: ''})
+  }
+  if (submitData.flow.letter) {
+    outflows.push({ situation_id: situationId, outflow_type: "email", amount: submitData.flow.email, remark: ''})
+  }
+  if (submitData.flow.letter) {
+    outflows.push({ situation_id: situationId, outflow_type: "promote", amount: submitData.flow.promote, remark: ''})
+  }
+  return outflows
+}
+
+function transformSituationWorkings(situationId, submitData) {
+  var workings = []
+  
+  Object.entries(submitData.workHours).forEach(([i, workHours]) => {
+    const weekDay = workingItems.find(obj => obj.key === Number(i)).value
+    workings.push({ situation_id: situationId, week_day: weekDay, working_hours: workHours, remark: ''})
+  })
+
+  return workings
 }
 
 function transformSituationProfile(staff, submitData) {
@@ -54,17 +82,6 @@ function transformSituationProfile(staff, submitData) {
     staff_id: staff.id,
     position: staff.position,
     settlement_date: submitData.date,
-    working_hours_w4: submitData.workHours[4],
-    working_hours_w5: submitData.workHours[5],
-    working_hours_w6: submitData.workHours[6],
-    working_hours_w7: submitData.workHours[7],
-    working_hours_w1: submitData.workHours[1],
-    working_hours_w2: submitData.workHours[2],
-    working_hours_w3: submitData.workHours[3],
-    outflow_letter: submitData.flow.letter,
-    outflow_line: submitData.flow.line,
-    outflow_email: submitData.flow.email,
-    outflow_promote: submitData.flow.promote
   }
 
   return result
@@ -105,6 +122,8 @@ module.exports = {
   transformSituationProfile,
   transformSituationItems,
   transformSituationStudies,
+  transformSituationOutflows,
+  transformSituationWorkings,
   createLineMessage,
 };
 

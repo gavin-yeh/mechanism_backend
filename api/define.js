@@ -7,6 +7,17 @@ const studyItems = [
   { key: 4, value: 'character_plan' }
 ]
 
+const workingItems = [
+  { key: 1, value: 'monday' },
+  { key: 2, value: 'tuesday' },
+  { key: 3, value: 'wednesday' },
+  { key: 4, value: 'thursday' },
+  { key: 5, value: 'friday' },
+  { key: 6, value: 'saturday' },
+  { key: 7, value: 'sunday' },
+]
+
+
 const pointsConditionSettingMap = new Map([
   ['non-existence', -2],
   ['danger', -1],
@@ -23,6 +34,7 @@ const employmentSettingMap = new Map([
 
 module.exports = {
   studyItems,
+  workingItems,
   pointsConditionSettingMap,
   employmentSettingMap,
 };

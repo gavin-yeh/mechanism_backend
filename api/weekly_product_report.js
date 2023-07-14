@@ -5,6 +5,8 @@ const situationProfiles = require('./../database/staff_situation_profiles.js')
 const situationCurves = require('./../database/staff_situation_curves.js')
 const situationItems = require('./../database/staff_situation_items.js')
 const situationStudies = require('./../database/staff_situation_studies.js')
+const situationOutflows = require('./../database/staff_situation_outflows.js')
+const situationWorkings = require('./../database/staff_situation_workings.js')
 const situationPoints = require('./../database/staff_situation_points.js')
 const staffs = require('./../database/staffs.js')
 const timer = require('../src/timer/timer.js')
@@ -63,9 +65,13 @@ async function userSubmitHandler(req, res) {
   // put situations & studies
   const sis = utils.transformSituationItems(situationId, submitData.mainCurve, submitData.subCurve, curves)
   const sss = utils.transformSituationStudies(situationId, submitData.studyHours)
+  const sso = utils.transformSituationOutflows(situationId, submitData)
+  const ssk = utils.transformSituationWorkings(situationId, submitData)
   const put2 = situationItems.saveOrUpdate(sis)
   const put3 = situationStudies.saveOrUpdate(sss)
-  await Promise.all([put2, put3])
+  const put4 = situationOutflows.saveOrUpdate(sso)
+  const put5 = situationWorkings.saveOrUpdate(ssk)
+  await Promise.all([put2, put3, put4, put5])
 
 
   // 計算上次四周日期
@@ -107,10 +113,12 @@ async function infoHandler(req, res) {
   // load 2
   const query3 = situationItems.loadById(profile.id)
   const query4 = situationStudies.loadById(profile.id)
-  const [items, studies] = await Promise.all([query3, query4])
+  const query5 = situationOutflows.loadById(profile.id)
+  const query6 = situationWorkings.loadById(profile.id)
+  const [items, studies, outflows, workings] = await Promise.all([query3, query4, query5, query6])
 
 
-  const result = { staff, profile, items, studies }
+  const result = { staff, profile, items, studies, outflows, workings }
   response.sendSuccess(req, res, result)
 }
 
@@ -132,9 +140,13 @@ async function submitHandler(req, res) {
   // put situations & studies
   const sis = utils.transformSituationItems(situationId, submitData.mainCurve, submitData.subCurve, curves)
   const sss = utils.transformSituationStudies(situationId, submitData.studyHours)
+  const sso = utils.transformSituationOutflows(situationId, submitData)
+  const ssk = utils.transformSituationWorkings(situationId, submitData)
   const put2 = situationItems.saveOrUpdate(sis)
   const put3 = situationStudies.saveOrUpdate(sss)
-  await Promise.all([put2, put3])
+  const put4 = situationOutflows.saveOrUpdate(sso)
+  const put5 = situationWorkings.saveOrUpdate(ssk)
+  await Promise.all([put2, put3, put4, put5])
 
 
   // delete point
