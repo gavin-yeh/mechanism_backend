@@ -34,7 +34,7 @@ function genericHandler(req, res, next) {
 }
 
 // 登入中間件
-function loginHandler(req, res, next) {
+function afterLoginHandler(req, res, next) {
   verifyToken(req, res, next)
 }
 
@@ -66,5 +66,5 @@ module.exports = {
   corsHandler,
   parseJSONHandler,
   genericHandler,
-  loginHandler,
+  afterLoginHandler,
 };

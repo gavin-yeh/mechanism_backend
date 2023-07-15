@@ -52,16 +52,22 @@ function transformSituationStudies(situationId, studyHours) {
 function transformSituationOutflows(situationId, submitData) {
   var outflows = []
   if (submitData.flow.letter) {
-    outflows.push({ situation_id: situationId, outflow_type: "letter", amount: submitData.flow.letter, remark: ''})
+    outflows.push({ situation_id: situationId, outflow_type: 'letter', amount: submitData.flow.letter, remark: ''})
   }
-  if (submitData.flow.letter) {
-    outflows.push({ situation_id: situationId, outflow_type: "line", amount: submitData.flow.line, remark: ''})
+  if (submitData.flow.line) {
+    outflows.push({ situation_id: situationId, outflow_type: 'line', amount: submitData.flow.line, remark: ''})
   }
-  if (submitData.flow.letter) {
-    outflows.push({ situation_id: situationId, outflow_type: "email", amount: submitData.flow.email, remark: ''})
+  if (submitData.flow.email) {
+    outflows.push({ situation_id: situationId, outflow_type: 'email', amount: submitData.flow.email, remark: ''})
   }
-  if (submitData.flow.letter) {
-    outflows.push({ situation_id: situationId, outflow_type: "promote", amount: submitData.flow.promote, remark: ''})
+  if (submitData.flow.promote) {
+    outflows.push({ situation_id: situationId, outflow_type: 'promote', amount: submitData.flow.promote, remark: ''})
+  }
+  if (submitData.flow.lineAt) {
+    outflows.push({ situation_id: situationId, outflow_type: 'lineAt', amount: submitData.flow.lineAt, remark: ''})
+  }
+  if (submitData.flow.facebook) {
+    outflows.push({ situation_id: situationId, outflow_type: 'facebook', amount: submitData.flow.facebook, remark: ''})
   }
   return outflows
 }

@@ -7,6 +7,8 @@ const situationProfiles = require('./../database/staff_situation_profiles.js')
 const situationItems = require('./../database/staff_situation_items.js')
 const situationStudies = require('./../database/staff_situation_studies.js')
 const situationPoints = require('./../database/staff_situation_points.js')
+const situationOutflows = require('./../database/staff_situation_outflows.js')
+const situationWorkings = require('./../database/staff_situation_workings.js')
 const appScript = require('../src/third/app_script.js')
 
 
@@ -28,20 +30,15 @@ async function infoHandler(req, res) {
   const situationIds = profiles.map(profile => profile.id)
 
   const query3 = situationPoints.loadByIds(situationIds)
-  const query4 = situationItems.loadByIds(situationIds)
+  const query4 = situationOutflows.loadByIds(situationIds)
   const query5 = situationStudies.loadByIds(situationIds)
+  const query6 = situationWorkings.loadByIds(situationIds)
 
-  const [points, items, studies] = await Promise.all([query3, query4, query5])
-
-
-  // 計算出 row
-  const rows = utils.transformRows(thursdayInfo.thursday, staffList, profiles, points, items, studies)
-
+  const [points, outflows, studies, workings] = await Promise.all([query3, query4, query5, query6])
 
   const result = {
-    thursday: thursdayInfo.thursday,
-    thursdayList : thursdayInfo.thursdayList,
-    rows,
+    thursdayInfo,
+    staffList, profiles, points, outflows, studies, workings,
   }
 
   response.sendSuccess(req, res, result)
@@ -58,7 +55,7 @@ async function submitHandler(req, res) {
   
   const [profiles, items] = await Promise.all([query1, query2])
 
-  
+
   // 寫入 DB
   const tsProfiles = utils.transformSituationProfiles(profiles, submitData.rows, submitData.thursday)
   const tspoints = utils.transformSituationPoints(profiles, submitData.rows)

@@ -17,25 +17,25 @@ app.use(middleware.genericHandler)
 const user = require('./api/user.js')
 
 app.post('/api/user/login', user.loginHandler)
-app.get('/api/user/info', middleware.loginHandler, user.infoHandler)
-app.post('/api/user/logout', middleware.loginHandler, user.logoutHandler)
+app.get('/api/user/info', middleware.afterLoginHandler, user.infoHandler)
+app.post('/api/user/logout', middleware.afterLoginHandler, user.logoutHandler)
 
 
 
 const weeklyProductReport = require('./api/weekly_product_report.js')
 
-app.get('/api/user/weeklyProductReport', middleware.loginHandler, weeklyProductReport.userInfoHandler)
-app.post('/api/user/weeklyProductReport', middleware.loginHandler, weeklyProductReport.userSubmitHandler)
+app.get('/api/user/weeklyProductReport', middleware.afterLoginHandler, weeklyProductReport.userInfoHandler)
+app.post('/api/user/weeklyProductReport', middleware.afterLoginHandler, weeklyProductReport.userSubmitHandler)
 
-app.get('/api/weeklyProductReport', middleware.loginHandler, weeklyProductReport.infoHandler)
-app.post('/api/weeklyProductReport', middleware.loginHandler, weeklyProductReport.submitHandler)
+app.get('/api/weeklyProductReport', middleware.afterLoginHandler, weeklyProductReport.infoHandler)
+app.post('/api/weeklyProductReport', middleware.afterLoginHandler, weeklyProductReport.submitHandler)
 
 
 
 const weeklyProductList = require('./api/weekly_product_list.js')
 
-app.get('/api/weeklyProductList', middleware.loginHandler, weeklyProductList.infoHandler)
-app.post('/api/weeklyProductList', middleware.loginHandler, weeklyProductList.submitHandler)
+app.get('/api/weeklyProductList', middleware.afterLoginHandler, weeklyProductList.infoHandler)
+app.post('/api/weeklyProductList', middleware.afterLoginHandler, weeklyProductList.submitHandler)
 
 
 
