@@ -39,6 +39,13 @@ app.post('/api/weeklyProductList', middleware.afterLoginHandler, weeklyProductLi
 
 
 
+const staffCurve = require('./api/staff_curve.js')
+
+app.get('/api/staff-curve', middleware.afterLoginHandler, staffCurve.settingHandler)
+app.get('/api/staff-curve/item', middleware.afterLoginHandler, staffCurve.curveItemHandler)
+
+
+
 app.listen(process.env.PORT, () => {
   console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });

@@ -11,6 +11,7 @@ function load(whereClause) {
               condition_style,
               \`order\`,
               tags,
+              show_names,
               remark
             FROM staff_situation_curves
             WHERE ${whereClause}
@@ -29,6 +30,16 @@ function load(whereClause) {
 
 function loadById(staffId) {
     return load(`staff_id = ${staffId}`);
+}
+
+function loadByIds(staffIds) {
+    if (staffIds.length === 0) {
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
+    const staffIdList = staffIds.join(',')
+    return load(`staff_id IN (${staffIdList})`)
 }
 
 function saveOrUpdate(data) {
@@ -78,5 +89,6 @@ function saveOrUpdate(data) {
 
 module.exports = {
     loadById,
+    loadByIds,
     saveOrUpdate,
 };

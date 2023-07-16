@@ -38,9 +38,11 @@ function loadByIdAndDate(staffId, settlementDate) {
   })
 }
 
-function loadByIdsAndDate(staffIds, settlementDate) {
-  const staffIdList = staffIds.join(',');
-  return load(`staff_id IN (${staffIdList}) AND settlement_date = '${settlementDate}'`)
+function loadByIdsAndDates(staffIds, settlementDates) {
+  const staffIdList = staffIds.join(',')
+  const settlementDateStrings = settlementDates.map(str => `'${str}'`)
+  const settlementDateList = settlementDateStrings.join(',')
+  return load(`staff_id IN (${staffIdList}) AND settlement_date IN (${settlementDateList})`)
 }
 
 function loadByUnique(staffId, position, settlementDate) {
@@ -138,7 +140,7 @@ function saveOrUpdateOne(data) {
 module.exports = {
     loadByDate,
     loadByIdAndDate,
-    loadByIdsAndDate,
+    loadByIdsAndDates,
     loadByUnique,
     saveOrUpdate,
     saveOrUpdateOne,

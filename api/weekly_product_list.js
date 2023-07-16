@@ -52,7 +52,7 @@ async function submitHandler(req, res) {
 
   const query1 = situationProfiles.loadByDate(submitData.thursday)
   const query2 = situationItems.loadByIds(situationIds)
-  
+
   const [profiles, items] = await Promise.all([query1, query2])
 
 

@@ -17,6 +17,10 @@ function getWeekThursday(date) {
 }
 
 function getThursdayInfo(dateString) {
+  return getThursdayList(dateString, -5, 5)
+}
+
+function getThursdayList(dateString, lowerLimit, upperLimit) {
   // 取得當前日期
   const today = new Date()
   thursday = getWeekThursday(today)
@@ -31,12 +35,12 @@ function getThursdayInfo(dateString) {
   var startDate = new Date(thursday)
   var endDate = new Date(thursday)
 
-  startDate.setDate(thursday.getDate() - 7*5)
-  endDate.setDate(thursday.getDate() + 7*5)
+  startDate.setDate(thursday.getDate() + 7 * lowerLimit)
+  endDate.setDate(thursday.getDate() + 7 * upperLimit)
 
   var thursdayList = []
   var currentDate = startDate
-  while (currentDate <= endDate) {
+  while (currentDate < endDate) {
     currentDate.setDate(currentDate.getDate() + 7) // 每次增加七天
     thursdayList.push(currentDate.toISOString().split('T')[0])
   }
@@ -59,5 +63,6 @@ function previousThursday(dateString) {
 
 module.exports = {
   getThursdayInfo,
+  getThursdayList,
   previousThursday,
 }
