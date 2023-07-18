@@ -7,7 +7,7 @@ const situationItems = require('./../database/staff_situation_items.js')
 const situationStudies = require('./../database/staff_situation_studies.js')
 const situationOutflows = require('./../database/staff_situation_outflows.js')
 const situationWorkings = require('./../database/staff_situation_workings.js')
-const situationPoints = require('./../database/staff_situation_points.js')
+const db_points = require('../database/staff_points.js')
 const staffs = require('./../database/staffs.js')
 const timer = require('../src/timer/timer.js')
 const lineNotify = require('../src/third/line_notify.js')
@@ -72,6 +72,10 @@ async function userSubmitHandler(req, res) {
   const put4 = situationOutflows.saveOrUpdate(sso)
   const put5 = situationWorkings.saveOrUpdate(ssk)
   await Promise.all([put2, put3, put4, put5])
+
+
+  // delete point
+  db_points.deleteByIdAndDate(staffId, submitData.date)
 
 
   // 計算上次四周日期
@@ -150,7 +154,8 @@ async function submitHandler(req, res) {
 
 
   // delete point
-  situationPoints.deleteById(situationId)
+  db_points.deleteByIdAndDate(staffId, submitData.date)
+
 
   const result = {}
   response.sendSuccess(req, res, result)

@@ -6,7 +6,7 @@ const staffs = require('./../database/staffs.js')
 const situationProfiles = require('./../database/staff_situation_profiles.js')
 const situationItems = require('./../database/staff_situation_items.js')
 const situationStudies = require('./../database/staff_situation_studies.js')
-const situationPoints = require('./../database/staff_situation_points.js')
+const db_points = require('../database/staff_points.js')
 const situationOutflows = require('./../database/staff_situation_outflows.js')
 const situationWorkings = require('./../database/staff_situation_workings.js')
 const appScript = require('../src/third/app_script.js')
@@ -22,19 +22,19 @@ async function infoHandler(req, res) {
   // 撈取DB 1
   const query1 = staffs.loadAll()
   const query2 = situationProfiles.loadByDate(thursdayInfo.thursday)
-  
-  const [staffList, profiles] = await Promise.all([query1, query2])
+  const query3 = db_points.loadByDates([thursdayInfo.thursday])
+
+  const [staffList, profiles, points] = await Promise.all([query1, query2, query3])
 
 
   // 撈取DB 2
   const situationIds = profiles.map(profile => profile.id)
-
-  const query3 = situationPoints.loadByIds(situationIds)
+  
   const query4 = situationOutflows.loadByIds(situationIds)
   const query5 = situationStudies.loadByIds(situationIds)
   const query6 = situationWorkings.loadByIds(situationIds)
 
-  const [points, outflows, studies, workings] = await Promise.all([query3, query4, query5, query6])
+  const [outflows, studies, workings] = await Promise.all([query4, query5, query6])
 
   const result = {
     thursdayInfo,
@@ -58,12 +58,12 @@ async function submitHandler(req, res) {
 
   // 寫入 DB
   const tsProfiles = utils.transformSituationProfiles(profiles, submitData.rows, submitData.thursday)
-  const tspoints = utils.transformSituationPoints(profiles, submitData.rows)
+  const tspoints = utils.transformSituationPoints(submitData.rows)
 
   const query3 = situationProfiles.saveOrUpdate(tsProfiles)
-  const query4 = situationPoints.saveOrUpdate(tspoints)
+  const query4 = db_points.saveOrUpdate(tspoints)
 
-  const [result3, result4] = await Promise.all([query3, query4])
+  await Promise.all([query3, query4])
 
 
   // output

@@ -39,7 +39,7 @@ async function curveItemHandler(req, res) {
   const [items] = await Promise.all([query3])
 
 
-  const formattedProfiles = profiles.map(row => {
+  const formattedProfiles = profiles.map(row => { // TODO
     const utcDateStr = row.settlement_date
     const utcDate = new Date(utcDateStr)
     const localDate = new Date(utcDate.setHours(utcDate.getHours() + 8))

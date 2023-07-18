@@ -16,36 +16,17 @@ function transformSituationProfiles(profiles, rows, thursday) {
   }).filter(profile => profile !== null)
 }
 
-function transformSituationPoints(profiles, rows) {
-  const pointTypes = [
-    { key: 'points_base', column: 'basicPoints' },
-    { key: 'points_technical_training_plus', column: 'technicalTraining' },
-    { key: 'points_management_training_plus', column: 'managementTraining' },
-    { key: 'points_audit_case_plus', column: 'caseAnalysis' },
-    { key: 'points_seniority_plus', column: 'seniority' },
-    { key: 'points_job_status', column: 'positionStatus' },
-    { key: 'points_working_hours', column: 'workHours' },
-    { key: 'points_study_hours', column: 'studyHours' },
-    { key: 'points_writing_letters', column: 'letter' },
-    { key: 'points_attending_staff', column: 'attendStaffMeeting' },
-    { key: 'points_non_submission', column: 'unsubmittedStatus' },
-    { key: 'points_gi', column: 'GI' },
-    { key: 'points_gbs', column: 'GBS' },
-    { key: 'points_total', column: 'totalPoints' }
-  ];
+function transformSituationPoints(rows) {
+  const points = rows.map(obj => obj.pointDataList)
 
-  return rows.flatMap(row => {
-    const profile = profiles.find(p => p.id === row.situation_id);
-    if (!profile) return [];
+  var results = []
+  points.forEach(point => {
+    results = results.concat(point)
+  })
 
-    return pointTypes.map(type => ({
-      situation_id: row.situation_id,
-      points_type: type.key,
-      points: row[type.column],
-      remark: row.note
-    }));
-  });
+  return results
 }
+
 
 function formatTime(h, m) {
   // 將數字轉換為兩位數的字符串
@@ -66,19 +47,20 @@ function transformOutputPoints(rows, items) {
       row.name,
       row.position,
       employmentSettingMap.get(row.staffType).name,
-      row.basicPoints,
-      row.attendStaffMeeting,
-      row.GI,
-      row.GBS,
-      row.letter,
-      row.studyHours,
-      row.unsubmittedStatus,
-      row.workHours,
-      row.positionStatus,
-      row.technicalTraining,
-      row.managementTraining,
-      row.caseAnalysis,
-      row.seniority,
+      Number(row.pointDataList.find(obj => obj.points_type === 'base').points),                     // row.basicPoints,
+      Number(row.pointDataList.find(obj => obj.points_type === 'attending_staff').points),          // row.attendStaffMeeting,
+      Number(row.pointDataList.find(obj => obj.points_type === 'gi').points),                       // row.GI,
+      Number(row.pointDataList.find(obj => obj.points_type === 'gbs').points),                      // row.GBS,
+      Number(row.pointDataList.find(obj => obj.points_type === 'writing_letters').points),          // row.letter,
+      Number(row.pointDataList.find(obj => obj.points_type === 'study_hours').points),              // row.studyHours,
+      Number(row.pointDataList.find(obj => obj.points_type === 'non_submission').points),           // row.unsubmittedStatus,
+      Number(row.pointDataList.find(obj => obj.points_type === 'working_hours').points),            // row.workHours,
+      Number(row.pointDataList.find(obj => obj.points_type === 'job_status').points),               // row.positionStatus,
+      Number(row.pointDataList.find(obj => obj.points_type === 'technical_training_plus').points),  // row.technicalTraining,
+      Number(row.pointDataList.find(obj => obj.points_type === 'management_training_plus').points), // row.managementTraining,
+      Number(row.pointDataList.find(obj => obj.points_type === 'audit_case_plus').points),          // row.caseAnalysis,
+      Number(row.pointDataList.find(obj => obj.points_type === 'seniority_plus').points),           // row.seniority,
+      Number(row.pointDataList.find(obj => obj.points_type === 'special_adjustment').points),
     ]
     pointList.push(data)
 
