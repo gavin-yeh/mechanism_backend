@@ -1,6 +1,6 @@
 
 const response = require('./generic/response.js')
-const staffs = require('./../database/staffs.js')
+const staffs = require('../database/staff.js')
 const tokener = require('../src/tokener/jwt.js')
 
 async function loginHandler(req, res) {
@@ -19,7 +19,7 @@ async function loginHandler(req, res) {
 async function infoHandler(req, res) {
   const staff = await staffs.loadById(req.userInfo.staffId)
   if (staff == null) {
-    response.sendFail(req, res, '帳號密碼錯誤')
+    response.sendFail(req, res, '職員ID不存在')
     return
   }
 

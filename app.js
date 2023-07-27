@@ -14,11 +14,18 @@ app.use(middleware.genericHandler)
 
 
 
-const user = require('./api/user.js')
+const user = require('./api/staff.js')
 
 app.post('/api/user/login', user.loginHandler)
 app.get('/api/user/info', middleware.afterLoginHandler, user.infoHandler)
 app.post('/api/user/logout', middleware.afterLoginHandler, user.logoutHandler)
+
+
+
+const public = require('./api/public.js')
+
+app.get('/api/public/search', public.searchHandler)
+app.post('/api/public', public.addHandler)
 
 
 

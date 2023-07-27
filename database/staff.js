@@ -73,8 +73,8 @@ function verify(username, password) {
           resolve(null)
       }
 
-      const staff = results[0]
-      resolve(staff)
+      const data = results[0]
+      resolve(data)
     })
   })
 }
