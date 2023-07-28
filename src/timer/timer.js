@@ -31,6 +31,9 @@ function getThursdayList(dateString, lowerLimit, upperLimit) {
     thursday = getWeekThursday(day)
   }
 
+  // 將日期轉換為 UTC+0
+  thursday.setUTCHours(0, 0, 0, 0)
+
   // 取得上下範圍的週四
   var startDate = new Date(thursday)
   var endDate = new Date(thursday)
