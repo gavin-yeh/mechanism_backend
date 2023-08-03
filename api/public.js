@@ -28,11 +28,7 @@ async function infoHandler(req, res) {
     }
   
     const result = {
-      public_id:  profile.id,
-      name:       profile.name,
-      phone:      profile.phone,
-      created_at: profile.created_at,
-      updated_at: profile.updated_at,
+      public:  profile,
     }
     response.sendSuccess(req, res, result)
   }
@@ -48,12 +44,12 @@ async function searchHandler(req, res) {
   var rows = []
   publicPage.profiles.forEach(function (row) {
     const profile = {
-      public_id:  row.id,
-      name:       row.name,
-      phone:      row.phone,
-      status:     '還沒做好拉',
-      created_at: row.created_at,
-      updated_at: row.updated_at,
+      public_id:    row.public_id,
+      name:         row.name,
+      phone_number: row.phone_number,
+      status:       '還沒做好拉',
+      created_at:   row.created_at,
+      updated_at:   row.updated_at,
     }
     rows.push(profile)
   })

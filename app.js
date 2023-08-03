@@ -19,13 +19,34 @@ const user = require('./api/staff.js')
 app.post('/api/user/login', user.loginHandler)
 app.get('/api/user/info', middleware.afterLoginHandler, user.infoHandler)
 app.post('/api/user/logout', middleware.afterLoginHandler, user.logoutHandler)
+app.get('/api/staffs', middleware.afterLoginHandler, user.listHandler)
 
 
 
 const public = require('./api/public.js')
 
 app.get('/api/public/search', public.searchHandler)
+app.get('/api/public', public.infoHandler)
 app.post('/api/public', public.addHandler)
+
+
+
+const publicProduct = require('./api/public_product.js')
+
+app.post('/api/public/product/register', publicProduct.registerHandler)
+
+
+
+const productService = require('./api/product_service.js')
+
+app.get('/api/product/service/search', middleware.afterLoginHandler, productService.searchHandler)
+
+
+
+const productBook = require('./api/product_book.js')
+
+app.get('/api/product/book/search', middleware.afterLoginHandler, productBook.searchHandler)
+app.get('/api/product/book/list', middleware.afterLoginHandler, productBook.listHandler)
 
 
 

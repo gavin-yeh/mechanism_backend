@@ -5,12 +5,34 @@ function load(whereClause, limitClause) {
   return new Promise((resolve, reject) => {
   var sqlQuery = `
   SELECT
-      public.id,
-      users.name,
-      users.nickname,
-      users.phone,
-      public.created_at,
-      public.updated_at
+    users.id as user_id,
+    users.name,
+    users.nickname,
+    users.english_name,
+    users.gender,
+    users.marital_status,
+    users.phone_number,
+    users.telephone_number,
+    users.email,
+    users.main_address_type,
+    users.main_address_county,
+    users.main_address_district,
+    users.main_address,
+    users.spare_address_type,
+    users.spare_address_county,
+    users.spare_address_district,
+    users.spare_address,
+    public.id as public_id,
+    public.created_at,
+    public.updated_at,
+    public.started_date,
+    public.fsm_user_id,
+    public.fsm_relation,
+    public.file_code,
+    public.is_contact,
+    public.is_publicity,
+    public.is_refund,
+    public.remark
   FROM public
   LEFT JOIN users ON public.user_id = users.id
   WHERE ${whereClause}
@@ -32,6 +54,7 @@ function load(whereClause, limitClause) {
         ...row,
         created_at: row.created_at.getTime(),
         updated_at: row.updated_at.getTime(),
+        started_date: row.started_date ? row.started_date.getTime(): 0,
       }
     })
 

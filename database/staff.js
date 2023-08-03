@@ -5,7 +5,6 @@ function load(whereClause) {
   return new Promise((resolve, reject) => {
   const sqlQuery = `
   SELECT
-      users.id,
       users.name,
       staffs.id,
       staffs.user_id,
